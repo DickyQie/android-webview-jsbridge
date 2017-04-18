@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type">
+        <title>
+            js调用java
+        </title>
+    </head>
+    
+    <body>
+        <p>
+            <xmp id="show">
+            </xmp>
+        </p>
+        <p>
+            <div id="init">
+            </div>
+        </p>
+        <p>
+            <input type="text" id="text1" value="DickyQie" />
+        </p>
+        <p>
+            <input type="text" id="text2" value="123456" />
+        </p>
+        <p>
+            <input type="button" id="enter" value="DefaultHandler方式" onclick="testClick();"
+            />
+        </p>
+        <p>
+            <input type="button" id="enter1" value="调用submitFromWeb方法" onclick="testClick1();"
+            />
+        </p>
+        <p>
+            <input type="button" id="enter2" value="显示html" onclick="testDiv();" />
+        </p>
+        <p>
+            <input type="file" value="打开文件" onclick="onOpen();"/>
+        </p>
+    </body>
+<script>
+       function testDiv() {
+            document.getElementById("show").innerHTML = document.getElementsByTagName("html")[0].innerHTML;
+       }
+
+        /*用来展示默认方式*/
+        function testClick() {
+            var str1 = document.getElementById("text1").value;
+            var str2 = document.getElementById("text2").value;
+            //send message to native
+            var data = {id: 1, content: "我是内容哦"};
+            window.WebViewJavascriptBridge.send(
+                data
+                , function(responseData) {
+                    document.getElementById("show").innerHTML = "data = " + responseData
+                }
+            );
+        }
+
+        function testClick1() {
+            var str1 = document.getElementById("text1").value;
+            var str2 = document.getElementById("text2").value;
+
+            window.WebViewJavascriptBridge.callHandler(
+                'submitFromWeb'
+                , {'Data': 'json数据传给Android端'}  //该类型是任意类型
+                , function(responseData) {
+                    document.getElementById("show").innerHTML = "得到Java传过来的数据 data = " + responseData
+                }
+            );
+        }
+
+
+        function onOpen() {
+          　var str1 = document.getElementById("text1").value;
+            var str2 = document.getElementById("text2").value;
+            var data = "name=" + str1 + ",pass=" + str2;
+            window.WebViewJavascriptBridge.callHandler(
+                'functionOpen'
+                , data
+                , function(responseData) {
+                    //document.getElementById("show").innerHTML = "send get responseData from java, data = " + responseData;
+                }
+            );
+        }
+
+
+
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function() {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+    /*初始化执行    webView.send("hello1111111111"); 无回调函数
+                    webView.send("zq", new CallBackFunction()  有回调函数
+     */
+        connectWebViewJavascriptBridge(function(bridge) {
+            bridge.init(function(message, responseCallback) {
+                console.log('JS got a message', message);
+                var data = {
+                    'json': 'JS返回任意数据!'
+                };
+                console.log('JS responding with', data);/*打印信息*/
+                 document.getElementById("init").innerHTML = "data = " + message;
+                responseCallback(data);
+            });
+
+            bridge.registerHandler("functionJs", function(data, responseCallback) {
+                document.getElementById("show").innerHTML = ("Android端: = " + data);
+                var responseData = "Javascript 数据";
+                responseCallback(responseData);
+            });
+        })
+    </script>
+
+</html>
