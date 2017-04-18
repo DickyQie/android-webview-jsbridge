@@ -59,15 +59,15 @@ public class MainActivity extends Activity implements OnClickListener {
 				this.openFileChooser(uploadMsg);
 			}
 
-			@SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType) {
-				this.openFileChooser(uploadMsg);
-			}
+				@SuppressWarnings("unused")
+				public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType) {
+					this.openFileChooser(uploadMsg);
+				}
 
-			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-				mUploadMessage = uploadMsg;
-				pickFile();
-			}
+				public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+					mUploadMessage = uploadMsg;
+					pickFile();
+				}
 		});
 
 		webView.loadUrl("file:///android_asset/demo.html");
