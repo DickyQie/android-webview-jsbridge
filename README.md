@@ -55,7 +55,7 @@ private void setHandler(){
             );
         }</code></pre> 
 <p>Android.Java</p> 
-<pre><code class="language-java">复制代码
+<pre><code class="language-java">
 
  //注册submitFromWeb方法
         bridgeWebView.registerHandler("submitFromWeb", new BridgeHandler() {
