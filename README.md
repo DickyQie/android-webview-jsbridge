@@ -1,4 +1,4 @@
-# Android之利用JSBridge库实现Html，JavaScript与Android的所有交互 
+### Android之利用JSBridge库实现Html，JavaScript与Android的所有交互 
   <p>java 和 js互通框架 WebViewJavascriptBridge是移动UIView和Html交互通信的桥梁，用作者的话来说就是实现java和js的互相调用的桥梁。</p> 
 <p>替代了WebView的自带的JavascriptInterface的接口，使得我们的开发更加灵活和安全。</p> 
 <p>本博客把<strong><span style="color:#800000">JSBridge库近所有Android与（HTML+JS）的交互的方式全部实现，代码详细，注释清除</span></strong>，希望对各位有所帮助。</p> 
